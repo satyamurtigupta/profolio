@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satyamurti | Data Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a; /* Slate 900 */
+            --card-color: #1e293b; /* Slate 800 */
+            --border-color: #334155; /* Slate 700 */
+            --text-primary: #f1f5f9; /* Slate 100 */
+            --text-secondary: #94a3b8; /* Slate 400 */
+            --accent-color: #2dd4bf; /* Teal 400 */
+            --accent-hover: #5eead4; /* Teal 300 */
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--accent-color);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2.5rem;
+            padding-left: 2.5rem;
+        }
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 2px;
+            height: 100%;
+            background-color: var(--border-color);
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -8px;
+            top: 5px;
+            height: 18px;
+            width: 18px;
+            border: 3px solid var(--accent-color);
+            border-radius: 50%;
+            background-color: var(--bg-color);
+            z-index: 10;
+        }
+        .section-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .section-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .chart-container {
+            position: relative;
+            height: 500px;
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .experience-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .experience-content.expanded {
+            max-height: 1000px; /* Large enough to not clip content */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold text-white hover:text-teal-400 transition-colors">Satyamurti</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#summary" class="nav-link text-slate-300 hover:text-white">Summary</a>
+                <a href="#experience" class="nav-link text-slate-300 hover:text-white">Experience</a>
+                <a href="#skills" class="nav-link text-slate-300 hover:text-white">Skills</a>
+                <a href="#projects" class="nav-link text-slate-300 hover:text-white">Projects</a>
+                <a href="#education" class="nav-link text-slate-300 hover:text-white">Education</a>
+            </div>
+            <div class="md:hidden">
+                <!-- Mobile menu can be added here if needed -->
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 md:py-20">
+        
+        <!-- Summary / Hero Section -->
+        <section id="summary" class="mb-24 section-fade-in">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white">Satyamurti</h1>
+            <h2 class="text-2xl md:text-3xl font-semibold text-teal-400 mt-2">Data Engineer</h2>
+            
+            <div class="flex items-center space-x-6 mt-4 text-slate-400">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>Bengaluru, India</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-envelope"></i>
+                    <a href="mailto:satyamurti161@gmail.com" class="hover:text-teal-400">satyamurti161@gmail.com</a>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i class="fa-brands fa-linkedin"></i>
+                    <a href="https://www.linkedin.com/in/your-linkedin-profile" target="_blank" class="hover:text-teal-400">LinkedIn</a>
+                </div>
+            </div>
+
+            <p class="mt-8 max-w-4xl text-lg text-slate-300 leading-relaxed">
+                Experienced Data Engineer with 9+ years in designing and implementing scalable data integration solutions using Informatica, SQL, and Python. Proven track record of leading agile teams to deliver data migration, ETL optimization, and data warehouse projects for prominent financial and insurance clients. Adept at transforming legacy systems, implementing efficient data pipelines, and improving processing speed by leveraging modern data engineering techniques and best practices.
+            </p>
+
+            <div class="mt-12 grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl">
+                <div class="bg-slate-800 p-6 rounded-lg text-center shadow-lg">
+                    <div class="text-4xl font-bold text-teal-400">9+</div>
+                    <div class="mt-2 text-slate-400">Years of Experience</div>
+                </div>
+                <div class="bg-slate-800 p-6 rounded-lg text-center shadow-lg">
+                    <div class="text-4xl font-bold text-teal-400">100+</div>
+                    <div class="mt-2 text-slate-400">ETL Procedures Re-engineered</div>
+                </div>
+                <div class="bg-slate-800 p-6 rounded-lg text-center shadow-lg col-span-2 md:col-span-1">
+                    <div class="text-4xl font-bold text-teal-400">4</div>
+                    <div class="mt-2 text-slate-400">Major Enterprise Projects</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="mb-24 section-fade-in">
+            <h2 class="text-3xl font-bold mb-12 text-white"><i class="fa-solid fa-briefcase mr-3 text-teal-400"></i>Professional Experience</h2>
+            <div class="relative">
+                <!-- Vertical line -->
+                <div id="experience-timeline">
+                    <!-- Experience items will be injected here by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="mb-24 section-fade-in">
+            <h2 class="text-3xl font-bold mb-12 text-white"><i class="fa-solid fa-code mr-3 text-teal-400"></i>Skills & Expertise</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
+                <div class="lg:col-span-3">
+                    <div class="chart-container bg-slate-800 p-4 rounded-lg shadow-xl">
+                        <canvas id="skillsChart"></canvas>
+                    </div>
+                </div>
+                <div id="skills-list" class="lg:col-span-2 space-y-6">
+                     <!-- Skills list will be injected here by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="mb-24 section-fade-in">
+            <h2 class="text-3xl font-bold mb-12 text-white"><i class="fa-solid fa-diagram-project mr-3 text-teal-400"></i>Project Spotlight</h2>
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                 <!-- Project cards will be injected here by JS -->
+            </div>
+        </section>
+
+        <!-- Education & Certifications Section -->
+        <section id="education" class="section-fade-in">
+            <h2 class="text-3xl font-bold mb-12 text-white"><i class="fa-solid fa-graduation-cap mr-3 text-teal-400"></i>Education & Certifications</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Education -->
+                <div class="bg-slate-800 p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold text-white">Education</h3>
+                    <div id="education-list" class="mt-4 space-y-4">
+                        <!-- Education items will be injected by JS -->
+                    </div>
+                </div>
+                <!-- Certifications -->
+                <div class="bg-slate-800 p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold text-white">Certifications & Achievements</h3>
+                    <div id="certifications-list" class="mt-4 space-y-4">
+                        <!-- Certification items will be injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center py-8 mt-16 border-t border-slate-800">
+        <p class="text-slate-500">Designed and Built by Satyamurti</p>
+    </footer>
+
+    <script>
+        const resumeData = {
+            "header": { "full_name": "Satyamurti", "title": "Data Engineer", "location": "Bengaluru, India", "phone": "9967805986", "email": "satyamurti161@gmail.com", "linkedin": { "text": "LinkedIn", "url": "https://www.linkedin.com/in/your-linkedin-profile" } },
+            "summary": "Experienced Data Engineer with 9+ years in designing and implementing scalable data integration solutions using Informatica, SQL, and Python. Proven track record of leading agile teams to deliver data migration, ETL optimization, and data warehouse projects for prominent financial and insurance clients. Adept at transforming legacy systems, implementing efficient data pipelines, and improving processing speed by leveraging modern data engineering techniques and best practices.",
+            "skills": [
+                { "category": "ETL & Data Integration", "items": ["Informatica PowerCenter (9.x)", "Informatica IICS", "ETL Workflow Design", "Data Warehousing"] },
+                { "category": "Programming & Scripting", "items": ["SQL, PL/SQL, T-SQL", "Python", "UNIX Shell Scripting", "C, C++", "ASP.NET, C#.NET", "PHP", "JavaScript"] },
+                { "category": "Databases", "items": ["Oracle", "Netezza", "SQL Server", "MySQL", "PostgreSQL"] },
+                { "category": "Cloud & Big Data", "items": ["AWS (S3, Glue, Redshift)", "Azure (ADF)", "GCP (BigQuery)", "Apache Spark", "Hadoop"] },
+                { "category": "DevOps & Tools", "items": ["Jenkins", "GitHub", "Putty", "WinSCP", "SQL Developer", "CI/CD"] }
+            ],
+            "professional_experience": [
+                { "job_title": "Senior Software Engineer", "company": "Synechron", "location": "Bengaluru, India", "dates": "Mar 2024 – Present", "responsibilities": ["Lead the migration of the Wealth Data Mart (WDM) from DB2 to SQL Server, re-engineering 100+ ETL procedures and Informatica workflows as part of Agile delivery for a Fortune 500 client (Wells Fargo).", "Translated DB2 stored procedures and UNIX scripts to SQL Server-compliant equivalents, ensuring seamless transition with zero data loss and minimal downtime.", "Coordinated cross-functional teams to deliver project milestones ahead of schedule and contributed to increased data accessibility and reporting performance."] },
+                { "job_title": "Lead Consultant", "company": "Allstate India Pvt Ltd", "location": "Bengaluru, India", "dates": "Nov 2021 – Mar 2024", "responsibilities": ["Designed and implemented scalable ETL pipelines to ingest and process merchant data from sources such as Amazon, Walmart, and eBay, reconciling transaction and warranty data for Squaretrade.", "Reduced ETL job execution time by 30% through pushdown optimization and SQL query tuning, supporting high-volume daily transactions.", "Led sprint planning and team mentoring for a 4-member Agile team, driving consistent delivery of complex data integration modules.", "Developed automated reconciliation and bookkeeping logic to enhance audit accuracy and month-end processing.", "Integrated multiple data sources and orchestrated seamless data flow across different platforms, improving invoicing and claim processing efficiency."] },
+                { "job_title": "Informatica Specialist", "company": "Accenture India Pvt. Ltd", "location": "Mumbai & Bengaluru, India", "dates": "Feb 2018 – Oct 2021", "responsibilities": ["Managed the global Product Data Warehouse initiative for Takeda Pharmaceutical, calculating Cost of Goods Sold (COGS) through effective redistribution of material and labor costs.", "Transformed complex PL/SQL procedures into highly efficient Informatica ETL processes, enhancing data pipeline reliability and traceability.", "Scheduled and monitored 24/7 ETL workflows with automated restart and notification features, ensuring SLA compliance.", "Implemented robust data quality jobs, enabling error-free financial reporting and regulatory compliance."] },
+                { "job_title": "Informatica ETL Developer", "company": "IBM India Pvt. Ltd", "location": "Mumbai, India", "dates": "Jan 2015 – Feb 2018", "responsibilities": ["Led replacement of legacy data warehouse at HDFC Bank by designing and executing data migration from REVELEUS system to Informatica 9.x and Netezza, leveraging IBM’s BDW model.", "Developed mapping specification documents and implemented customer golden record logic, improving data integrity and reporting accuracy.", "Designed and deployed Slowly Changing Dimension (SCD) Type 2 mappings for audit-ready dimension management.", "Enabled integration of diverse flat files and relational sources through custom transformation logic and robust ETL workflows."] }
+            ],
+            "education": [
+                { "degree": "Executive M-Tech, AI & ML (In Progress)", "institution": "IIT Jammu", "year": "Present" },
+                { "degree": "B.Tech in Information Technology", "institution": "Lovely Professional University, Jalandhar", "year": "2013" }
+            ],
+            "certifications": [
+                { "name": "GATE (Graduate Aptitude Test in Engineering)", "issuer": "IIT", "year": "2013" },
+                { "name": "CDAC Exam – All India Rank 5", "issuer": "CDAC", "year": "2013" }
+            ],
+            "projects": [
+                { "title": "WDM Data Migration", "description": "Migrated the Wealth Data Mart from DB2 to SQL Server for Wells Fargo, translating complex data models, procedures, and scripts while orchestrating the Agile delivery lifecycle.", "technologies": ["Informatica PowerCenter", "SQL Server", "DB2", "UNIX", "Python", "Agile"], "impact": "Modernized legacy systems, reduced batch processing times, and ensured business continuity." },
+                { "title": "Merchant Integration & Reconciliation", "description": "Developed automated pipelines for ingesting, reconciling, and reporting merchant data (Amazon, Walmart) for warranty sales and claims processing.", "technologies": ["Informatica", "SQL", "Python", "UNIX", "AWS"], "impact": "Achieved 99% data accuracy and reduced monthly reconciliation effort by 50%." },
+                { "title": "Product Data Warehouse (PDW)", "description": "Streamlined global COGS calculations and data aggregation for Takeda Pharmaceutical, automating financial workflows across geographies.", "technologies": ["Informatica", "PL/SQL", "Oracle", "Data Modeling"], "impact": "Enabled accurate, timely financial reports supporting executive decision-making." },
+                { "title": "HDFC Bank DW Augmentation", "description": "Orchestrated migration of HDFC’s enterprise data warehouse, designing SCD Type 2 mappings, and integrating diverse data sources for advanced analytics.", "technologies": ["Informatica", "Netezza", "SQL", "IBM BDW"], "impact": "Increased scalability and operational efficiency of core banking data systems." }
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- SMOOTH SCROLL & ACTIVE NAV LINK ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active', 'text-white');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active', 'text-white');
+                    } else {
+                        link.classList.add('text-slate-300');
+                    }
+                });
+            });
+
+            // --- FADE-IN ANIMATION ON SCROLL ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.section-fade-in').forEach(section => {
+                observer.observe(section);
+            });
+
+            // --- POPULATE EXPERIENCE TIMELINE ---
+            const experienceContainer = document.getElementById('experience-timeline');
+            resumeData.professional_experience.forEach((job, index) => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item';
+                item.innerHTML = `
+                    <div class="timeline-dot"></div>
+                    <div class="cursor-pointer experience-toggle">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xl font-bold text-white">${job.job_title}</h3>
+                            <span class="text-teal-400 font-mono text-sm">${job.dates}</span>
+                        </div>
+                        <p class="text-slate-400 mt-1">${job.company} - ${job.location}</p>
+                        <i class="fas fa-chevron-down text-slate-500 mt-2 transition-transform"></i>
+                    </div>
+                    <div class="experience-content mt-4 pl-4 border-l-2 border-slate-700">
+                        <ul class="list-disc list-inside space-y-2 text-slate-300">
+                            ${job.responsibilities.map(res => `<li>${res}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+                experienceContainer.appendChild(item);
+            });
+            
+            // Accordion functionality
+            document.querySelectorAll('.experience-toggle').forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const content = toggle.nextElementSibling;
+                    const icon = toggle.querySelector('i');
+                    content.classList.toggle('expanded');
+                    icon.classList.toggle('rotate-180');
+                });
+            });
+            
+            // --- SKILLS CHART ---
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: resumeData.skills.map(s => s.category),
+                    datasets: [{
+                        label: 'Number of Skills',
+                        data: resumeData.skills.map(s => s.items.length),
+                        backgroundColor: 'rgba(45, 212, 191, 0.6)',
+                        borderColor: 'rgba(45, 212, 191, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1e293b',
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 12 },
+                            padding: 10,
+                            cornerRadius: 4,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: { color: '#94a3b8', font: { size: 14 } },
+                            grid: { color: 'rgba(51, 65, 85, 0.5)' }
+                        },
+                        x: {
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
+                            grid: { color: 'rgba(51, 65, 85, 0.5)' }
+                        }
+                    }
+                }
+            });
+
+            // --- POPULATE SKILLS LIST ---
+            const skillsListContainer = document.getElementById('skills-list');
+            resumeData.skills.forEach(skillCat => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.innerHTML = `
+                    <h4 class="font-bold text-lg text-teal-400 mb-2">${skillCat.category}</h4>
+                    <div class="flex flex-wrap gap-2">
+                        ${skillCat.items.map(item => `<span class="bg-slate-700 text-slate-300 text-sm font-medium px-3 py-1 rounded-full">${item}</span>`).join('')}
+                    </div>
+                `;
+                skillsListContainer.appendChild(categoryDiv);
+            });
+
+            // --- POPULATE PROJECTS GRID ---
+            const projectsContainer = document.getElementById('projects-grid');
+            resumeData.projects.forEach(project => {
+                const card = document.createElement('div');
+                card.className = 'bg-slate-800 p-6 rounded-lg shadow-lg flex flex-col justify-between hover:shadow-teal-400/10 hover:-translate-y-1 transition-all duration-300';
+                card.innerHTML = `
+                    <div>
+                        <h3 class="text-xl font-bold text-white">${project.title}</h3>
+                        <p class="text-slate-400 mt-2">${project.description}</p>
+                        <p class="text-slate-300 mt-4"><span class="font-semibold text-teal-400">Impact:</span> ${project.impact}</p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-700">
+                        <div class="flex flex-wrap gap-2">
+                            ${project.technologies.map(tech => `<span class="bg-teal-900/50 text-teal-300 text-xs font-semibold px-2.5 py-1 rounded-full">${tech}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+                projectsContainer.appendChild(card);
+            });
+
+            // --- POPULATE EDUCATION & CERTS ---
+            const educationContainer = document.getElementById('education-list');
+            resumeData.education.forEach(edu => {
+                const item = document.createElement('div');
+                item.innerHTML = `
+                    <p class="font-semibold text-white">${edu.degree}</p>
+                    <p class="text-slate-400">${edu.institution} - ${edu.year}</p>
+                `;
+                educationContainer.appendChild(item);
+            });
+
+            const certsContainer = document.getElementById('certifications-list');
+            resumeData.certifications.forEach(cert => {
+                const item = document.createElement('div');
+                item.innerHTML = `
+                    <p class="font-semibold text-white">${cert.name}</p>
+                    <p class="text-slate-400">${cert.issuer} - ${cert.year}</p>
+                `;
+                certsContainer.appendChild(item);
+            });
+        });
+    </script>
+</body>
+</html>
